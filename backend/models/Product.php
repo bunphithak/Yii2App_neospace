@@ -59,7 +59,7 @@ class Product extends \yii\db\ActiveRecord
             'FPDBRAND' => 'DESCRIPTION',
             'FPDIMAGES' => 'PICTURE',
             'FPDPDF' => 'DATA SHEET',
-            'FPDACTIVE' => 'Inactive',
+            'FPDACTIVE' => 'STATUS',
             'FPDPDFNAME' => 'FILENAME'
         ];
     }

@@ -95,7 +95,7 @@ class ProductController extends Controller
             $model->FPDPDF = $model->uploadpdf($model,'FPDPDF');
             $model->FPDCREATEDATE = date('Y-m-d H:i:s');
             $model->save();
-            return $this->redirect(['view', 'id' => $model->FPDID]);
+            return $this->redirect(['index', 'id' => $model->FPDID]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -109,8 +109,9 @@ class ProductController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
+        $id = Yii::$app->request->post('id');
         $model = Product::findOne($id);
 
         $deleteFile='';

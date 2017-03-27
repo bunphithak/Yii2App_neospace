@@ -35,8 +35,8 @@ use yii\bootstrap\ActiveForm;
     <div class="col-md-12">
         <div class="col-sm-2"></div>
          <div class="col-sm-3 form-group">
-            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-             <?= Html::a('Close', ['index'], ['class' => 'btn btn-info']) ?>
+            <?= Html::submitButton($model->isNewRecord ? '<i class="glyphicon glyphicon-plus"></i>Add' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+             <?= Html::a('<i class="fa fa-times" aria-hidden="true"></i>Close', ['index'], ['class' => 'btn btn-info']) ?>
          </div>
     </div>
 </div>

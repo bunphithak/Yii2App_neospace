@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\helpers\Url;
 
 
 /* @var $this yii\web\View */
@@ -77,13 +78,28 @@ use yii\widgets\Pjax;
                           }
                         }
                         ],
-                        
+
+                        [
+                          'attribute'=>'FPDACTIVE',
+                          'filter' => [0 => 'Inactive', 1 => 'Active'],
+                          'format' => 'raw',
+                          'headerOptions' => ['class' => 'text-center'],
+                          'value' => function($model, $key, $index, $column){
+                           return $model->FPDACTIVE == 0 ?'<span class="label label-danger text-center">Inactive</span>' : '<span class="label label-success text-center">Active</span>';
+                          }
+                        ],
+
                         [
                           'class' => 'yii\grid\ActionColumn',
                           'options'=>['style'=>'width:120px;'],
                            // 'visible' => FALSE,
                           'buttonOptions'=>['class'=>'btn btn-default'],
-                          'template'=>'<div class="btn-group btn-group-sm text-center" role="group"> {view} {update} {delete} </div>'
+                          'template'=>'<div class="btn-group btn-group-sm text-center" role="group"> {view} {update} {delete} </div>',
+                          'buttons'=>[
+                            'delete' => function($url,$model,$key){
+                                return Html::a('<i class="glyphicon glyphicon glyphicon-trash"></i>','javascript:void(0)',['class'=>'btn btn-default','onclick'=>'setDelete('.$model->FPDID.',"'.$model->FPDNAME.'")']);
+                              }
+                          ]
                        ],
                     ],
                 ]); ?>
@@ -92,3 +108,36 @@ use yii\widgets\Pjax;
     </div>
   </div>
 </div>
+<script type="text/javascript">
+
+function setDelete(id, name=null) {
+    swal({
+      title: 'Delete!',
+      text: (name)?name:'No Information',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(function (data) {
+        // after delete
+       if(data) {
+            swal({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              type: 'warning',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Yes, delete it!'
+            }).then(function () {
+                if(data){
+                  $.post('<?= Url::to(['product/delete']) ?>',{id:id},function(response){  });
+                }
+                window.location.href = '<?= Url::to(['product/index']) ?>';
+            })
+        } else {
+            console.log('not delete');
+        }
+    });
+}
+</script>

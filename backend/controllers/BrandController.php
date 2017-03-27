@@ -38,7 +38,7 @@ class BrandController extends Controller
     public function actionIndex()
     {
         $searchModel = new BrandSearch();
-      $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -68,7 +68,7 @@ class BrandController extends Controller
         $model = new Brand();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->FBID]);
+            return $this->redirect(['index', 'id' => $model->FBID]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -104,10 +104,14 @@ class BrandController extends Controller
     public function actionDelete()
     {
         $id = Yii::$app->request->post('id');
-        return json_encode($id);
-        // $this->findModel($id)->delete();
+        //
+        $model = $this->findModel($id);
 
-        // return $this->redirect(['index']);
+        if($model->delete()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
